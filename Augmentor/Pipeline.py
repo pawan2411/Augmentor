@@ -248,7 +248,8 @@ class Pipeline(object):
                                     + "." \
                                     + (self.save_format if self.save_format else augmentor_image.file_format)
                         if images[i].mode in ["RGBA","P"]:
-                          images[i] = images[i].converet("RGB")
+                          continue
+#                           images[i] = images[i].converet("RGB")
                         images[i].save(os.path.join(augmentor_image.output_directory, save_name))
 
                     else:
