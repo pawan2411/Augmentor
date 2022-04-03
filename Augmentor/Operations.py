@@ -840,8 +840,10 @@ class RotateRange(Operation):
 
             # Crop this area from the rotated image
             # image = image.crop((E, A, X - E, Y - A))
-            image = image.crop((int(round(E)), int(round(A)), int(round(X - E)), int(round(Y - A))))
-
+            try:
+              image = image.crop((int(round(E)), int(round(A)), int(round(X - E)), int(round(Y - A))))
+            except:
+              image = image
             # Return the image, re-sized to the size of the image passed originally
             return image.resize((x, y), resample=Image.BICUBIC)
 
