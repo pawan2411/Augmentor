@@ -236,8 +236,8 @@ class Pipeline(object):
         # save_to_disk = False
 
         if save_to_disk:
-            file_name = str(uuid.uuid4())
-            try:
+                file_name = str(uuid.uuid4())
+#             try:
                 for i in range(len(images)):
                     if i == 0:
                         save_name = augmentor_image.class_label \
@@ -247,10 +247,13 @@ class Pipeline(object):
                                     + file_name \
                                     + "." \
                                     + (self.save_format if self.save_format else augmentor_image.file_format)
-                        if images[i].mode in ["RGBA","P"]:
+#                         if images[i].mode in ["RGBA","P"]:
+#                           continue
+# #                           images[i] = images[i].converet("RGB")
+                        try:
+                          images[i].save(os.path.join(augmentor_image.output_directory, save_name))
+                        except:
                           continue
-#                           images[i] = images[i].converet("RGB")
-                        images[i].save(os.path.join(augmentor_image.output_directory, save_name))
 
                     else:
                         save_name = "_groundtruth_(" \
@@ -263,13 +266,15 @@ class Pipeline(object):
                                     + file_name \
                                     + "." \
                                     + (self.save_format if self.save_format else augmentor_image.file_format)
+                        try:
+                          images[i].save(os.path.join(augmentor_image.output_directory, save_name))
+                        except:
+                          continue
 
-                        images[i].save(os.path.join(augmentor_image.output_directory, save_name))
-
-            except IOError as e:
-                print("Error writing %s, %s. Change save_format to PNG?" % (file_name, e.message))
-                print("You can change the save format using the set_save_format(save_format) function.")
-                print("By passing save_format=\"auto\", Augmentor can save in the correct format automatically.")
+#             except IOError as e:
+#                 print("Error writing %s, %s. Change save_format to PNG?" % (file_name, e.message))
+#                 print("You can change the save format using the set_save_format(save_format) function.")
+#                 print("By passing save_format=\"auto\", Augmentor can save in the correct format automatically.")
 
         # TODO: Fix this really strange behaviour.
         # As a workaround, we can pass the same back and basically
